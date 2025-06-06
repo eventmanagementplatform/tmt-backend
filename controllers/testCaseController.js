@@ -3,7 +3,8 @@ const Run = require('../models/Run');
 
 exports.addTestCase = async (req, res) => {
   try {
-    const { RunID, TestCaseName } = req.body;
+    const { RunID, TestCaseName, step, expected, actual, status, actions } = req.body;
+
     const run = await Run.findOne({ RunID });
     if (!run) return res.status(404).json({ message: 'Run not found' });
 
@@ -13,7 +14,17 @@ exports.addTestCase = async (req, res) => {
     const count = await TestCase.countDocuments({ RunID });
     const TestCaseID = `TC-${String(count + 1).padStart(5, '0')}`;
 
-    const testCase = new TestCase({ TestCaseID, TestCaseName, RunID });
+    const testCase = new TestCase({
+      TestCaseID,
+      TestCaseName,
+      RunID,
+      step,
+      expected,
+      actual,
+      status,
+      actions
+    });
+
     await testCase.save();
     res.status(201).json(testCase);
   } catch (err) {
