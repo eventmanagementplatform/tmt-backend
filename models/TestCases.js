@@ -1,22 +1,12 @@
 const mongoose = require('mongoose');
 
 const testCaseSchema = new mongoose.Schema({
+  ProjectID: { type: String, required: true, ref: 'Project' },
+  ReleaseID: { type: String, required: true, ref: 'Release' },
+  RunID: { type: String, required: true },
   TestCaseID: { type: String, required: true, unique: true },
   TestCaseName: { type: String, required: true },
-  RunID: { type: String, required: true },
-  step: { type: String, required: true },
-  expected: { type: String, required: true },
-  actual: { type: String, default: '' },
-  status: {
-    type: String,
-    enum: ['PASS', 'FAIL', 'BLOCKED', 'NOT RUN'],
-    default: 'NOT RUN'
-  },
-  actions: {
-    type: String,
-    enum: ['LAUNCHBROWSER', 'CLICK', 'ENTERTEXT', 'SELECTDROPDOWN', 'VERIFYTEXT', 'NAVIGATETO'],
-    required: true
-  }
+  
 });
-
+testCaseSchema.index({ ProjectID: 1,ReleaseID: 1, RunID: 1, TestCaseName: 1 }, { unique: true }); // Unique per run
 module.exports = mongoose.model('TestCase', testCaseSchema);

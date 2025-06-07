@@ -25,6 +25,8 @@ app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/releases', require('./routes/releaseRoutes'));
 app.use('/api/runs', require('./routes/runRoutes'));
 app.use('/api/testcases', require('./routes/testCaseRoutes'));
+app.use('/api/teststeps', require('./routes/testStepsRoutes'));
+
 
 
 // Root Route
